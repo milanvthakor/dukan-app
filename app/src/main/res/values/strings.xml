@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">BB Internship  Task</string>
+    <string name="app_name">Dukan</string>
+    <string name="welcome_to_your">Welcome To Your</string>
+    <string name="login">Login</string>
+
+    <!-- Custom font list of the application -->
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/lobster_regular</item>
+        <item>@font/pt_sans_regular</item>
+    </array>
 </resources>

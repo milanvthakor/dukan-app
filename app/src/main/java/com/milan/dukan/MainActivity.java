@@ -1,4 +1,4 @@
-package com.milan.bbinternshiptask;
+package com.milan.dukan;
 
 import androidx.appcompat.app.AppCompatActivity;
 

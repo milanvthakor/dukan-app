@@ -1,4 +1,4 @@
-package com.milan.bbinternshiptask;
+package com.milan.dukan;
 
 import org.junit.Test;
 
