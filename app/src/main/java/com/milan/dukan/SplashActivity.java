@@ -1,14 +1,18 @@
 package com.milan.dukan;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Pair;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -37,8 +41,13 @@ public class SplashActivity extends AppCompatActivity {
         mHandler = new Handler();
         mRunnable = () -> {
             Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-            finish();
+
+            ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(this,
+                    Pair.create(ivLogo, "logo_anim"),
+                    Pair.create(tvTitle, "title_anim"));
+            startActivity(intent, activityOptions.toBundle());
+            // to remove flash in transition animation
+            getWindow().setExitTransition(null);
         };
     }
 
@@ -62,6 +71,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         mHandler.removeCallbacks(mRunnable);
+        finish();
     }
 
     @Override

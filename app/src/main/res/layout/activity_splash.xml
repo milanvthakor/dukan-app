@@ -11,6 +11,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:src="@drawable/ic_app_logo"
+        android:transitionName="logo_anim"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -21,22 +22,20 @@
         android:id="@+id/splash_welcome_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/pt_sans_regular"
         android:text="@string/welcome_to_your"
-        android:textColor="@color/off_dark_orange"
+        android:textColor="@color/persimmon_500"
         app:layout_constraintBottom_toTopOf="@id/splash_title"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
         android:id="@+id/splash_title"
+        style="@style/Theme.Dukan.AppName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
-        android:fontFamily="@font/lobster_regular"
         android:text="@string/app_name"
-        android:textColor="@color/off_dark_orange"
-        android:textSize="60sp"
+        android:transitionName="title_anim"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
