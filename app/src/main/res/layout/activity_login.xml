@@ -44,8 +44,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="60"
-        android:focusable="true">
+        android:layout_weight="60">
 
         <TextView
             android:id="@+id/login_sign_in_message"
