@@ -1,11 +1,13 @@
 package com.milan.dukan;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -60,5 +62,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
 
         return super.dispatchTouchEvent(ev);
+    }
+
+    // simple navigation to activity
+    void navigate(Class<?> destination) {
+        Intent intent = new Intent(this, destination);
+        startActivity(intent);
+    }
+
+    // display Toast with given message
+    void displayToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

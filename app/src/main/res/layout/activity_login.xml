@@ -55,8 +55,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/login_username_layout"
+        <com.milan.dukan.CustomTextInputLayout
+            android:id="@+id/login_email_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,21 +66,21 @@
             app:layout_constraintTop_toBottomOf="@id/login_sign_in_message">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/login_username"
+                android:id="@+id/login_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/username"
-                android:inputType="text" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:hint="@string/email"
+                android:inputType="textEmailAddress" />
+        </com.milan.dukan.CustomTextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
+        <com.milan.dukan.CustomTextInputLayout
             android:id="@+id/login_password_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/login_username_layout"
+            app:layout_constraintTop_toBottomOf="@id/login_email_layout"
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
                 android:inputType="textPassword" />
-        </com.google.android.material.textfield.TextInputLayout>
+        </com.milan.dukan.CustomTextInputLayout>
 
         <TextView
             android:id="@+id/login_forgot_password"
