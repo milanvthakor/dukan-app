@@ -12,7 +12,7 @@ public class LoginActivity extends BaseActivity {
 
     // UI
     EditText etEmail, etPassword;
-    TextInputLayout etEmailLayout, etPasswordLayout;
+    TextInputLayout tilEmail, tilPassword;
     Button btnLogin;
     TextView tvForgotPassword, tvSignUp;
 
@@ -24,15 +24,23 @@ public class LoginActivity extends BaseActivity {
         // to remove flash in transition animation
         getWindow().setEnterTransition(null);
 
+        bindViews();
+        setListeners();
+    }
+
+    private void bindViews() {
         etEmail = findViewById(R.id.login_email);
         etPassword = findViewById(R.id.login_password);
-        etEmailLayout = findViewById(R.id.login_email_layout);
-        etPasswordLayout = findViewById(R.id.login_password_layout);
+        tilEmail = findViewById(R.id.login_email_layout);
+        tilPassword = findViewById(R.id.login_password_layout);
         btnLogin = findViewById(R.id.login);
         tvForgotPassword = findViewById(R.id.login_forgot_password);
         tvSignUp = findViewById(R.id.login_sign_up);
+    }
 
+    private void setListeners() {
         btnLogin.setOnClickListener(v -> login());
+        tvSignUp.setOnClickListener(v -> navigate(RegisterActivity.class));
     }
 
     private void login() {
@@ -41,16 +49,16 @@ public class LoginActivity extends BaseActivity {
         password = etPassword.getText().toString().trim();
 
         if (email.isEmpty()) {
-            etEmailLayout.setError("Email required");
+            tilEmail.setError("Email required");
             etEmail.requestFocus();
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            etEmailLayout.setError("Invalid email");
+            tilEmail.setError("Invalid email");
             etEmail.requestFocus();
         } else if (password.isEmpty()) {
-            etPasswordLayout.setError("Password required");
+            tilPassword.setError("Password required");
             etPassword.requestFocus();
         } else if (password.length() < 8 || password.length() > 12) {
-            etPasswordLayout.setError("Password length must be between 8 to 12");
+            tilPassword.setError("Password length must be between 8 to 12");
             etPassword.requestFocus();
         } else {
             if (email.equals("admin@gmail.com") && password.equals("admin123")) {
