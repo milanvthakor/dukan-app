@@ -6,13 +6,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.android.material.textfield.TextInputLayout;
+import com.milan.dukan.views.BaseActivity;
+import com.milan.dukan.views.CustomTextInputLayout;
 
 public class LoginActivity extends BaseActivity {
 
     // UI
     EditText etEmail, etPassword;
-    TextInputLayout tilEmail, tilPassword;
+    CustomTextInputLayout tilEmail, tilPassword;
     Button btnLogin;
     TextView tvForgotPassword, tvSignUp;
 
@@ -49,16 +50,16 @@ public class LoginActivity extends BaseActivity {
         password = etPassword.getText().toString().trim();
 
         if (email.isEmpty()) {
-            tilEmail.setError("Email required");
+            tilEmail.showError("Email required");
             etEmail.requestFocus();
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            tilEmail.setError("Invalid email");
+            tilEmail.showError("Invalid email");
             etEmail.requestFocus();
         } else if (password.isEmpty()) {
-            tilPassword.setError("Password required");
+            tilPassword.showError("Password required");
             etPassword.requestFocus();
         } else if (password.length() < 8 || password.length() > 12) {
-            tilPassword.setError("Password length must be between 8 to 12");
+            tilPassword.showError("Password length must be between 8 to 12");
             etPassword.requestFocus();
         } else {
             if (email.equals("admin@gmail.com") && password.equals("admin123")) {

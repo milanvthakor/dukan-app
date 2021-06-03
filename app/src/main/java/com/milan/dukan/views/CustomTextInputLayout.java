@@ -1,4 +1,4 @@
-package com.milan.dukan;
+package com.milan.dukan.views;
 
 import android.content.Context;
 import android.text.Editable;
@@ -47,9 +47,21 @@ public class CustomTextInputLayout extends TextInputLayout {
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    setError(null);
+                    clearError();
                 }
             });
         }
+    }
+
+    // enable error display functionality and display error
+    public void showError(String errorMsg) {
+        setErrorEnabled(true);
+        setError(errorMsg);
+    }
+
+    // clear the error and remove the error space
+    public void clearError() {
+        setError(null);
+        setErrorEnabled(false);
     }
 }

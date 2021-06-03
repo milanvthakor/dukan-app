@@ -55,7 +55,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.milan.dukan.CustomTextInputLayout
+        <com.milan.dukan.views.CustomTextInputLayout
             android:id="@+id/login_email_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
@@ -71,9 +71,9 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress" />
-        </com.milan.dukan.CustomTextInputLayout>
+        </com.milan.dukan.views.CustomTextInputLayout>
 
-        <com.milan.dukan.CustomTextInputLayout
+        <com.milan.dukan.views.CustomTextInputLayout
             android:id="@+id/login_password_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
                 android:inputType="textPassword" />
-        </com.milan.dukan.CustomTextInputLayout>
+        </com.milan.dukan.views.CustomTextInputLayout>
 
         <TextView
             android:id="@+id/login_forgot_password"

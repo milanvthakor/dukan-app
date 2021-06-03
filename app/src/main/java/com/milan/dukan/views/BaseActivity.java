@@ -1,4 +1,4 @@
-package com.milan.dukan;
+package com.milan.dukan.views;
 
 import android.content.Context;
 import android.content.Intent;
@@ -65,13 +65,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     // simple navigation to activity
-    void navigate(Class<?> destination) {
+    public void navigate(Class<?> destination) {
         Intent intent = new Intent(this, destination);
         startActivity(intent);
     }
 
     // display Toast with given message
-    void displayToast(String message) {
+    public void displayToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

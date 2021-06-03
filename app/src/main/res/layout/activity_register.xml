@@ -29,7 +29,7 @@
             android:text="@string/sign_up_to_continue"
             android:textSize="18sp" />
 
-        <com.milan.dukan.CustomTextInputLayout
+        <com.milan.dukan.views.CustomTextInputLayout
             android:id="@+id/register_name_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/name"
                 android:inputType="text" />
-        </com.milan.dukan.CustomTextInputLayout>
+        </com.milan.dukan.views.CustomTextInputLayout>
 
         <RadioGroup
             android:id="@+id/register_gender"
@@ -74,7 +74,7 @@
                 android:text="@string/other" />
         </RadioGroup>
 
-        <com.milan.dukan.CustomTextInputLayout
+        <com.milan.dukan.views.CustomTextInputLayout
             android:id="@+id/register_dob_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
@@ -91,9 +91,9 @@
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:hint="@string/date_of_birth" />
-        </com.milan.dukan.CustomTextInputLayout>
+        </com.milan.dukan.views.CustomTextInputLayout>
 
-        <com.milan.dukan.CustomTextInputLayout
+        <com.milan.dukan.views.CustomTextInputLayout
             android:id="@+id/register_email_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
@@ -105,7 +105,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress" />
-        </com.milan.dukan.CustomTextInputLayout>
+        </com.milan.dukan.views.CustomTextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -114,7 +114,7 @@
             android:orientation="horizontal"
             android:weightSum="10">
 
-            <com.milan.dukan.CustomTextInputLayout
+            <com.milan.dukan.views.CustomTextInputLayout
                 android:id="@+id/register_country_code_layout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
@@ -133,9 +133,9 @@
                     android:inputType="phone"
                     android:maxLength="4"
                     android:text="@string/india_country_code" />
-            </com.milan.dukan.CustomTextInputLayout>
+            </com.milan.dukan.views.CustomTextInputLayout>
 
-            <com.milan.dukan.CustomTextInputLayout
+            <com.milan.dukan.views.CustomTextInputLayout
                 android:id="@+id/register_contact_no_layout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
@@ -150,39 +150,10 @@
                     android:hint="@string/contact_no"
                     android:inputType="number"
                     android:maxLength="10" />
-            </com.milan.dukan.CustomTextInputLayout>
+            </com.milan.dukan.views.CustomTextInputLayout>
         </LinearLayout>
 
-        <com.milan.dukan.CustomTextInputLayout
-            android:id="@+id/register_password_layout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/register_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/password"
-                android:inputType="textPassword" />
-        </com.milan.dukan.CustomTextInputLayout>
-
-        <com.milan.dukan.CustomTextInputLayout
-            android:id="@+id/register_confirm_password_layout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:passwordToggleEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/register_confirm_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/confirm_password"
-                android:inputType="textPassword" />
-        </com.milan.dukan.CustomTextInputLayout>
-
-        <com.milan.dukan.CustomTextInputLayout
+        <com.milan.dukan.views.CustomTextInputLayout
             android:id="@+id/register_city_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
@@ -195,7 +166,37 @@
                 android:layout_height="wrap_content"
                 android:inputType="none"
                 tools:ignore="LabelFor" />
-        </com.milan.dukan.CustomTextInputLayout>
+        </com.milan.dukan.views.CustomTextInputLayout>
+
+        <com.milan.dukan.views.CustomTextInputLayout
+            android:id="@+id/register_password_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/password"
+                android:inputType="textPassword" />
+        </com.milan.dukan.views.CustomTextInputLayout>
+
+        <com.milan.dukan.views.CustomTextInputLayout
+            android:id="@+id/register_confirm_password_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_confirm_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/confirm_password"
+                android:inputType="textPassword" />
+        </com.milan.dukan.views.CustomTextInputLayout>
 
         <Button
             android:id="@+id/register"
