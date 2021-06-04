@@ -21,6 +21,7 @@
     <string name="country_code">Country Code</string>
     <string name="name">Name</string>
     <string name="city">City</string>
+    <string name="products">Products</string>
 
     <!-- Custom font list of the application -->
     <array name="preloaded_fonts" translatable="false">
