@@ -10,7 +10,9 @@
         <item name="colorSecondaryVariant">@color/teal_200</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorSurface</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@android:color/black</item>
         <!-- Customize your theme here. -->
+        <!-- Remove Search View Hint Icon -->
+        <item name="searchViewStyle">@style/SearchView</item>
     </style>
 </resources>

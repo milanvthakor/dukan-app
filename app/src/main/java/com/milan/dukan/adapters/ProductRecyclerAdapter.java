@@ -3,6 +3,8 @@ package com.milan.dukan.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,12 +17,15 @@ import com.milan.dukan.models.Product;
 
 import java.util.ArrayList;
 
-public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecyclerAdapter.ProductRecyclerViewHolder> {
+public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecyclerAdapter.ProductRecyclerViewHolder> implements Filterable {
 
+    // vars
     private ArrayList<Product> mProducts;
+    private ArrayList<Product> mProductsFiltered;
 
     public ProductRecyclerAdapter(ArrayList<Product> mProducts) {
         this.mProducts = mProducts;
+        this.mProductsFiltered = mProducts;
     }
 
     @NonNull
@@ -32,7 +37,7 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
 
     @Override
     public void onBindViewHolder(@NonNull ProductRecyclerViewHolder holder, int position) {
-        Product product = mProducts.get(position);
+        Product product = mProductsFiltered.get(position);
         holder.tvProductTitle.setText(product.getTitle());
         String price = "Rs. " + product.getPrice().toString();
         holder.tvProductPrice.setText(price);
@@ -43,7 +48,43 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
 
     @Override
     public int getItemCount() {
-        return mProducts.size();
+        return mProductsFiltered.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                // this will perform in worker thread asynchronously
+
+                String query = constraint.toString();
+                if (query.isEmpty()) {
+                    mProductsFiltered = mProducts;
+                } else {
+                    ArrayList<Product> filteredProducts = new ArrayList<>();
+                    for (Product product : mProducts) {
+                        if (product.getTitle().toLowerCase().contains(query.toLowerCase()) ||
+                                product.getDescription().toLowerCase().contains(query.toLowerCase())) {
+                            filteredProducts.add(product);
+                        }
+                    }
+                    mProductsFiltered = filteredProducts;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mProductsFiltered;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                // this will perform in UI thread
+
+                mProductsFiltered = (ArrayList<Product>) results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
     public class ProductRecyclerViewHolder extends RecyclerView.ViewHolder {
