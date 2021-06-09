@@ -10,8 +10,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.milan.dukan.adapters.CategoryRecyclerAdapter;
 import com.milan.dukan.adapters.ProductRecyclerAdapter;
+import com.milan.dukan.models.Category;
 import com.milan.dukan.models.Product;
+import com.milan.dukan.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -20,12 +23,14 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     // UI Components
-    RecyclerView rvProducts;
+    RecyclerView rvProducts, rvCategories;
     TextView tvProductsLabel;
 
     // vars
-    private ArrayList<Product> mProduct = new ArrayList<>();
+    private ArrayList<Product> mProducts = new ArrayList<>();
     private ProductRecyclerAdapter mProductRecyclerAdapter;
+    private ArrayList<Category> mCategories = Utils.categories;
+    private CategoryRecyclerAdapter mCategoryRecyclerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +48,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void bindViews() {
         rvProducts = findViewById(R.id.main_products);
+        rvCategories = findViewById(R.id.main_categories);
         tvProductsLabel = findViewById(R.id.products_label);
     }
 
     private void initRecyclerView() {
-        mProductRecyclerAdapter = new ProductRecyclerAdapter(mProduct);
+        mProductRecyclerAdapter = new ProductRecyclerAdapter(mProducts);
         rvProducts.setAdapter(mProductRecyclerAdapter);
+        mCategoryRecyclerAdapter = new CategoryRecyclerAdapter(this, mCategories);
+        rvCategories.setAdapter(mCategoryRecyclerAdapter);
     }
 
     private void insertFakeProducts() {
@@ -67,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 product.setImageUrl("https://images.unsplash.com/photo-1513116476489-7635e79feb27?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTh8fHByb2R1Y3R8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60");
             }
-            mProduct.add(product);
+            mProducts.add(product);
         }
     }
 
