@@ -1,9 +1,11 @@
 package com.milan.dukan;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,13 +20,16 @@ import com.milan.dukan.utils.Utils;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements
+        ProductRecyclerAdapter.OnProductListChangedListener,
+        CategoryRecyclerAdapter.OnCategoryListChangedListener,
+        CategoryRecyclerAdapter.OnCategoryClickListener {
 
     private static final String TAG = "MainActivity";
 
     // UI Components
     RecyclerView rvProducts, rvCategories;
-    TextView tvProductsLabel;
+    TextView tvProductsLabel, tvCategoriesLabel;
 
     // vars
     private ArrayList<Product> mProducts = new ArrayList<>();
@@ -42,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         bindViews();
 
-        insertFakeProducts();
+        mProducts = Utils.insertFakeProducts();
         initRecyclerView();
     }
 
@@ -50,33 +55,14 @@ public class MainActivity extends AppCompatActivity {
         rvProducts = findViewById(R.id.main_products);
         rvCategories = findViewById(R.id.main_categories);
         tvProductsLabel = findViewById(R.id.products_label);
+        tvCategoriesLabel = findViewById(R.id.categories_label);
     }
 
     private void initRecyclerView() {
-        mProductRecyclerAdapter = new ProductRecyclerAdapter(mProducts);
+        mProductRecyclerAdapter = new ProductRecyclerAdapter(mProducts, this::onProductListChanged);
         rvProducts.setAdapter(mProductRecyclerAdapter);
-        mCategoryRecyclerAdapter = new CategoryRecyclerAdapter(this, mCategories);
+        mCategoryRecyclerAdapter = new CategoryRecyclerAdapter(this, mCategories, this::onCategoryListChanged, this::onCategoryClick);
         rvCategories.setAdapter(mCategoryRecyclerAdapter);
-    }
-
-    private void insertFakeProducts() {
-        for (int i = 0; i < 100; i++) {
-            Product product = new Product();
-            product.setId("PRD" + i);
-            product.setTitle("Product #" + i);
-            product.setDescription("This is description for Product #" + i);
-            product.setPrice(200.0 + i);
-            if (i % 4 == 0) {
-                product.setImageUrl("https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=750&q=80");
-            } else if (i % 4 == 1) {
-                product.setImageUrl("https://images.unsplash.com/photo-1581235720704-06d3acfcb36f?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fHByb2R1Y3R8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60");
-            } else if (i % 4 == 2) {
-                product.setImageUrl("https://images.unsplash.com/photo-1491637639811-60e2756cc1c7?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fHByb2R1Y3R8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60");
-            } else {
-                product.setImageUrl("https://images.unsplash.com/photo-1513116476489-7635e79feb27?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTh8fHByb2R1Y3R8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60");
-            }
-            mProducts.add(product);
-        }
     }
 
     @Override
@@ -95,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 // filter recycler view when query submitted
                 mProductRecyclerAdapter.getFilter().filter(query);
+                mCategoryRecyclerAdapter.getFilter().filter(query);
                 return false;
             }
 
@@ -102,9 +89,40 @@ public class MainActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 // filter recycler view when text is changed
                 mProductRecyclerAdapter.getFilter().filter(newText);
+                mCategoryRecyclerAdapter.getFilter().filter(newText);
                 return false;
             }
         });
         return true;
+    }
+
+    @Override
+    public void onCategoryListChanged() {
+        if (mCategoryRecyclerAdapter.getItemCount() == 0) {
+            rvCategories.setVisibility(View.GONE);
+            tvCategoriesLabel.setVisibility(View.GONE);
+        } else {
+            rvCategories.setVisibility(View.VISIBLE);
+            tvCategoriesLabel.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onProductListChanged() {
+        if (mProductRecyclerAdapter.getItemCount() == 0) {
+            rvProducts.setVisibility(View.GONE);
+            tvProductsLabel.setVisibility(View.GONE);
+        } else {
+            rvProducts.setVisibility(View.VISIBLE);
+            tvProductsLabel.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onCategoryClick(int position) {
+        Category category = mCategories.get(position);
+        Intent intent = new Intent(this, ProductList.class);
+        intent.putExtra("selected_category", category);
+        startActivity(intent);
     }
 }

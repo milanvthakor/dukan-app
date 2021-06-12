@@ -24,6 +24,7 @@
     <string name="products">Products</string>
     <string name="search">Search</string>
     <string name="categories">Categories</string>
+    <string name="view_more">View More</string>
 
     <!-- Custom font list of the application -->
     <array name="preloaded_fonts" translatable="false">

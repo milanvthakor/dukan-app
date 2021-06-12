@@ -22,10 +22,12 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
     // vars
     private ArrayList<Product> mProducts;
     private ArrayList<Product> mProductsFiltered;
+    private OnProductListChangedListener mOnProductListChangedListener;
 
-    public ProductRecyclerAdapter(ArrayList<Product> mProducts) {
+    public ProductRecyclerAdapter(ArrayList<Product> mProducts, OnProductListChangedListener mOnProductListChangedListener) {
         this.mProducts = mProducts;
         this.mProductsFiltered = mProducts;
+        this.mOnProductListChangedListener = mOnProductListChangedListener;
     }
 
     @NonNull
@@ -83,8 +85,13 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
 
                 mProductsFiltered = (ArrayList<Product>) results.values;
                 notifyDataSetChanged();
+                mOnProductListChangedListener.onProductListChanged();
             }
         };
+    }
+
+    public interface OnProductListChangedListener {
+        void onProductListChanged();
     }
 
     public class ProductRecyclerViewHolder extends RecyclerView.ViewHolder {
