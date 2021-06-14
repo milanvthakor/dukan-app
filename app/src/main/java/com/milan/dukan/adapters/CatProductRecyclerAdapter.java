@@ -18,17 +18,19 @@ import java.util.ArrayList;
 public class CatProductRecyclerAdapter extends RecyclerView.Adapter<CatProductRecyclerAdapter.CatProductRecyclerViewHolder> {
 
     // vars
-    private ArrayList<Product> mProducts;
+    private final ArrayList<Product> mProducts;
+    private final OnCatProductClickListener mOnCatProductClickListener;
 
-    public CatProductRecyclerAdapter(ArrayList<Product> mProducts) {
+    public CatProductRecyclerAdapter(ArrayList<Product> mProducts, OnCatProductClickListener mOnCatProductClickListener) {
         this.mProducts = mProducts;
+        this.mOnCatProductClickListener = mOnCatProductClickListener;
     }
 
     @NonNull
     @Override
     public CatProductRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_cat_product_list_item, parent, false);
-        return new CatProductRecyclerViewHolder(view);
+        return new CatProductRecyclerViewHolder(view, mOnCatProductClickListener);
     }
 
     @Override
@@ -48,19 +50,35 @@ public class CatProductRecyclerAdapter extends RecyclerView.Adapter<CatProductRe
         return mProducts.size();
     }
 
-    public class CatProductRecyclerViewHolder extends RecyclerView.ViewHolder {
+    public interface OnCatProductClickListener {
+        void onCatProductClick(int position);
+    }
+
+    public class CatProductRecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         // UI Components
         ImageView ivCatProductImage;
         TextView tvCatProductTitle, tvCatProductDesc, tvCatProductPrice;
 
-        public CatProductRecyclerViewHolder(@NonNull View itemView) {
+        // vars
+        OnCatProductClickListener onCatProductClickListener;
+
+        public CatProductRecyclerViewHolder(@NonNull View itemView, OnCatProductClickListener onCatProductClickListener) {
             super(itemView);
+
+            this.onCatProductClickListener = onCatProductClickListener;
 
             ivCatProductImage = itemView.findViewById(R.id.cat_product_image);
             tvCatProductTitle = itemView.findViewById(R.id.cat_product_title);
             tvCatProductDesc = itemView.findViewById(R.id.cat_product_description);
             tvCatProductPrice = itemView.findViewById(R.id.cat_product_price);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onCatProductClickListener.onCatProductClick(getAdapterPosition());
         }
     }
 }

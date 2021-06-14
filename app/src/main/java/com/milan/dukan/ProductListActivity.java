@@ -1,5 +1,6 @@
 package com.milan.dukan;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -14,7 +15,7 @@ import com.milan.dukan.utils.Utils;
 
 import java.util.ArrayList;
 
-public class ProductList extends AppCompatActivity {
+public class ProductListActivity extends AppCompatActivity implements CatProductRecyclerAdapter.OnCatProductClickListener {
 
     // UI Components
     RecyclerView rvCatProducts;
@@ -53,7 +54,7 @@ public class ProductList extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        mCatProductRecyclerAdapter = new CatProductRecyclerAdapter(mCatProducts);
+        mCatProductRecyclerAdapter = new CatProductRecyclerAdapter(mCatProducts, this);
         rvCatProducts.setAdapter(mCatProductRecyclerAdapter);
     }
 
@@ -80,5 +81,16 @@ public class ProductList extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCatProductClick(int position) {
+        Product product = mCatProducts.get(position);
+        Intent intent = new Intent(this, ProductDetailsActivity.class);
+        intent.putExtra("selected_product", product);
+        if (mCategory != null) {
+            intent.putExtra("selected_category", mCategory);
+        }
+        startActivity(intent);
     }
 }

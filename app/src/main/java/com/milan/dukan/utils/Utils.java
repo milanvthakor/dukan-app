@@ -119,4 +119,13 @@ public class Utils {
 
         return products;
     }
+
+    public static Category getCategory(String categoryId) {
+        for (Category category : categories) {
+            if (category.getId().equals(categoryId)) {
+                return category;
+            }
+        }
+        return null;
+    }
 }

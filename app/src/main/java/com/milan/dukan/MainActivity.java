@@ -23,9 +23,11 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements
         ProductRecyclerAdapter.OnProductListChangedListener,
         CategoryRecyclerAdapter.OnCategoryListChangedListener,
-        CategoryRecyclerAdapter.OnCategoryClickListener {
+        CategoryRecyclerAdapter.OnCategoryClickListener,
+        ProductRecyclerAdapter.OnProductClickListener {
 
     private static final String TAG = "MainActivity";
+    private final ArrayList<Category> mCategories = Utils.categories;
 
     // UI Components
     RecyclerView rvProducts, rvCategories;
@@ -34,7 +36,6 @@ public class MainActivity extends AppCompatActivity implements
     // vars
     private ArrayList<Product> mProducts = new ArrayList<>();
     private ProductRecyclerAdapter mProductRecyclerAdapter;
-    private ArrayList<Category> mCategories = Utils.categories;
     private CategoryRecyclerAdapter mCategoryRecyclerAdapter;
 
     @Override
@@ -59,9 +60,9 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void initRecyclerView() {
-        mProductRecyclerAdapter = new ProductRecyclerAdapter(mProducts, this::onProductListChanged);
+        mProductRecyclerAdapter = new ProductRecyclerAdapter(mProducts, this, this);
         rvProducts.setAdapter(mProductRecyclerAdapter);
-        mCategoryRecyclerAdapter = new CategoryRecyclerAdapter(this, mCategories, this::onCategoryListChanged, this::onCategoryClick);
+        mCategoryRecyclerAdapter = new CategoryRecyclerAdapter(this, mCategories, this, this);
         rvCategories.setAdapter(mCategoryRecyclerAdapter);
     }
 
@@ -121,8 +122,20 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onCategoryClick(int position) {
         Category category = mCategories.get(position);
-        Intent intent = new Intent(this, ProductList.class);
+        Intent intent = new Intent(this, ProductListActivity.class);
         intent.putExtra("selected_category", category);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onProductClick(int position) {
+        Product product = mProducts.get(position);
+        Intent intent = new Intent(this, ProductDetailsActivity.class);
+        intent.putExtra("selected_product", product);
+        Category catOfProduct = Utils.getCategory(product.getCategoryId());
+        if (catOfProduct != null) {
+            intent.putExtra("selected_category", catOfProduct);
+        }
         startActivity(intent);
     }
 }

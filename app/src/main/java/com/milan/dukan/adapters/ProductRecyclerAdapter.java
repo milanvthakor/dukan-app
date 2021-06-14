@@ -20,21 +20,23 @@ import java.util.ArrayList;
 public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecyclerAdapter.ProductRecyclerViewHolder> implements Filterable {
 
     // vars
-    private ArrayList<Product> mProducts;
+    private final ArrayList<Product> mProducts;
+    private final OnProductListChangedListener mOnProductListChangedListener;
+    private final OnProductClickListener mOnProductClickListener;
     private ArrayList<Product> mProductsFiltered;
-    private OnProductListChangedListener mOnProductListChangedListener;
 
-    public ProductRecyclerAdapter(ArrayList<Product> mProducts, OnProductListChangedListener mOnProductListChangedListener) {
+    public ProductRecyclerAdapter(ArrayList<Product> mProducts, OnProductListChangedListener mOnProductListChangedListener, OnProductClickListener mOnProductClickListener) {
         this.mProducts = mProducts;
-        this.mProductsFiltered = mProducts;
         this.mOnProductListChangedListener = mOnProductListChangedListener;
+        this.mOnProductClickListener = mOnProductClickListener;
+        this.mProductsFiltered = mProducts;
     }
 
     @NonNull
     @Override
     public ProductRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_product_list_item, parent, false);
-        return new ProductRecyclerViewHolder(view);
+        return new ProductRecyclerViewHolder(view, mOnProductClickListener);
     }
 
     @Override
@@ -94,17 +96,34 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
         void onProductListChanged();
     }
 
-    public class ProductRecyclerViewHolder extends RecyclerView.ViewHolder {
+    public interface OnProductClickListener {
+        void onProductClick(int position);
+    }
 
+    public class ProductRecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        // UI Components
         TextView tvProductTitle, tvProductPrice;
         ImageView ivProductImage;
 
-        public ProductRecyclerViewHolder(@NonNull View itemView) {
+        // vars
+        OnProductClickListener onProductClickListener;
+
+        public ProductRecyclerViewHolder(@NonNull View itemView, OnProductClickListener onProductClickListener) {
             super(itemView);
+
+            this.onProductClickListener = onProductClickListener;
 
             tvProductTitle = itemView.findViewById(R.id.product_title);
             tvProductPrice = itemView.findViewById(R.id.product_price);
             ivProductImage = itemView.findViewById(R.id.product_image);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onProductClickListener.onProductClick(getAdapterPosition());
         }
     }
 }

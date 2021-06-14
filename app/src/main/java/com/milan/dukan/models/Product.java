@@ -1,6 +1,21 @@
 package com.milan.dukan.models;
 
-public class Product {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Product implements Parcelable {
+
+    public static final Creator<Product> CREATOR = new Creator<Product>() {
+        @Override
+        public Product createFromParcel(Parcel in) {
+            return new Product(in);
+        }
+
+        @Override
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
 
     private String id;
     private String title;
@@ -19,6 +34,19 @@ public class Product {
     }
 
     public Product() {
+    }
+
+    protected Product(Parcel in) {
+        id = in.readString();
+        title = in.readString();
+        description = in.readString();
+        imageUrl = in.readString();
+        if (in.readByte() == 0) {
+            price = null;
+        } else {
+            price = in.readDouble();
+        }
+        categoryId = in.readString();
     }
 
     public String getId() {
@@ -79,5 +107,25 @@ public class Product {
                 ", price=" + price +
                 ", categoryId='" + categoryId + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(title);
+        dest.writeString(description);
+        dest.writeString(imageUrl);
+        if (price == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(price);
+        }
+        dest.writeString(categoryId);
     }
 }
