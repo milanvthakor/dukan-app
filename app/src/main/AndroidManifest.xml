@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Dukan"
         tools:ignore="AllowBackup">
-        <activity android:name=".ProductDetailsActivity"></activity>
+        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".ProductDetailsActivity" />
         <activity android:name=".ProductListActivity" />
         <activity
             android:name=".RegisterActivity"

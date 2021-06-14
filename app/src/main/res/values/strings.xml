@@ -26,6 +26,7 @@
     <string name="categories">Categories</string>
     <string name="view_more">View More</string>
     <string name="description">Description</string>
+    <string name="my_profile">My Profile</string>
 
     <!-- Custom font list of the application -->
     <array name="preloaded_fonts" translatable="false">
@@ -222,4 +223,7 @@
         <item>Yercaud</item>
         <item>Zanskar</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="notifications">Notifications</string>
 </resources>
