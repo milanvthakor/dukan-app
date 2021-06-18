@@ -1,10 +1,14 @@
 package com.milan.dukan.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class User {
     private String name;
+    @SerializedName("date_of_birth")
     private String dob;
     private String gender;
     private String email;
+    @SerializedName("phone")
     private String contactNo;
     private String city;
     private String password;
@@ -97,6 +101,7 @@ public class User {
                 ", contactNo='" + contactNo + '\'' +
                 ", city='" + city + '\'' +
                 ", password='" + password + '\'' +
+                ", password2='" + password2 + '\'' +
                 '}';
     }
 }

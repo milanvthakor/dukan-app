@@ -1,8 +1,9 @@
 package com.milan.dukan;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -12,7 +13,11 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.google.gson.Gson;
+import com.milan.dukan.api.AuthResponse;
+import com.milan.dukan.api.RetrofitClient;
 import com.milan.dukan.models.User;
+import com.milan.dukan.utils.Constants;
 import com.milan.dukan.views.BaseActivity;
 import com.milan.dukan.views.CustomTextInputLayout;
 
@@ -20,12 +25,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class RegisterActivity extends BaseActivity implements DatePickerDialog.OnDateSetListener {
 
-    private static final String TAG = "RegisterActivity";
-
     private static final Calendar mCalender = Calendar.getInstance();
-    private static final String dateFormat = "dd/MM/yy";
+    private static final String dateFormat = "yyyy-MM-dd";
     private static final SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
 
     // UI
@@ -36,10 +43,15 @@ public class RegisterActivity extends BaseActivity implements DatePickerDialog.O
     RadioButton rbGender;
     Button btnRegister;
 
+    // vars
+    SharedPreferences sp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        sp = getSharedPreferences(Constants.APP_PREFERENCE_NAME, Context.MODE_PRIVATE);
 
         bindViews();
 
@@ -82,10 +94,10 @@ public class RegisterActivity extends BaseActivity implements DatePickerDialog.O
             dpd.getDatePicker().setMaxDate(System.currentTimeMillis()); // future dates are not allowed to set
             dpd.show();
         });
-        btnRegister.setOnClickListener(v -> register());
+        btnRegister.setOnClickListener(v -> validateData());
     }
 
-    private void register() {
+    private void validateData() {
         String name, gender, dob, email, contactNo, city, password, cfmPassword;
         int selectedRadioBtnId = rgGender.getCheckedRadioButtonId();
         rbGender = findViewById(selectedRadioBtnId);
@@ -133,13 +145,45 @@ public class RegisterActivity extends BaseActivity implements DatePickerDialog.O
             tilCfmPassword.showError("Both passwords does not match");
             etCfmPassword.requestFocus();
         } else {
-            User mUser = new User(name, dob, gender, email, contactNo, city, password);
-            Log.d(TAG, "register: " + mUser.toString());
-
-            displayToast("Signed Up Successfully");
-            navigate(MainActivity.class);
-            finish();
+            String contactWithCode = "+91" + contactNo;
+            User mUser = new User(name, dob, gender, email, contactWithCode, city, password);
+            mUser.setPassword2(password);
+            register(mUser);
         }
+    }
+
+    private void register(User user) {
+        Call<AuthResponse> authResponseCall = RetrofitClient.getInstance().getAuthApi().register(user);
+        authResponseCall.enqueue(new Callback<AuthResponse>() {
+            @Override
+            public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
+                AuthResponse successAuthResponse = response.body();
+                if (successAuthResponse != null) {
+                    displayToast(successAuthResponse.getMessage());
+                    if (successAuthResponse.getResponse().equals("Success")) {
+                        SharedPreferences.Editor spEditor = sp.edit();
+                        spEditor.putString(Constants.APP_PREFERENCE_USER_EMAIL, successAuthResponse.getEmail());
+                        spEditor.putString(Constants.APP_PREFERENCE_USER_PK, successAuthResponse.getPk().toString());
+                        spEditor.putString(Constants.APP_PREFERENCE_USER_TOKEN, successAuthResponse.getToken());
+                        spEditor.apply();
+                        spEditor.commit();
+                        navigate(MainActivity.class);
+                        finishAffinity();
+                    }
+                } else if (response.errorBody() != null) {
+                    // get the response body from error
+                    AuthResponse failureAUthResponse = new Gson().fromJson(response.errorBody().charStream(), AuthResponse.class);
+                    displayToast(failureAUthResponse.getMessage());
+                } else {
+                    displayToast("Something went wrong!!");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AuthResponse> call, Throwable t) {
+                displayToast(t.getLocalizedMessage());
+            }
+        });
     }
 
     @Override
