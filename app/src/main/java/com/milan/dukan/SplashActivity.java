@@ -1,18 +1,20 @@
 package com.milan.dukan;
 
 import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Pair;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+
+import com.milan.dukan.utils.Constants;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -26,11 +28,14 @@ public class SplashActivity extends AppCompatActivity {
     Animation topAnim, bottomAnim;
     Handler mHandler;
     Runnable mRunnable;
+    SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        sp = getSharedPreferences(Constants.APP_PREFERENCE_NAME, Context.MODE_PRIVATE);
 
         ivLogo = findViewById(R.id.splash_logo);
         tvWelcomeMsg = findViewById(R.id.splash_welcome_message);
@@ -40,14 +45,22 @@ public class SplashActivity extends AppCompatActivity {
 
         mHandler = new Handler();
         mRunnable = () -> {
-            Intent intent = new Intent(this, LoginActivity.class);
+            String userEmail = sp.getString(Constants.APP_PREFERENCE_USER_EMAIL, "");
+            if (userEmail.isEmpty()) {
+                Intent intent = new Intent(this, LoginActivity.class);
 
-            ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(this,
-                    Pair.create(ivLogo, "logo_anim"),
-                    Pair.create(tvTitle, "title_anim"));
-            startActivity(intent, activityOptions.toBundle());
-            // to remove flash in transition animation
-            getWindow().setExitTransition(null);
+                ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(this,
+                        Pair.create(ivLogo, "logo_anim"),
+                        Pair.create(tvTitle, "title_anim"));
+                startActivity(intent, activityOptions.toBundle());
+
+                // to remove flash in transition animation
+                getWindow().setExitTransition(null);
+            } else {
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
         };
     }
 

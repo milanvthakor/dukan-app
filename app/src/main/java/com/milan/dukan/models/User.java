@@ -8,6 +8,7 @@ public class User {
     private String contactNo;
     private String city;
     private String password;
+    private String password2; /*require for REST api request (optional)*/
 
     public User(String name, String dob, String gender, String email, String contactNo, String city, String password) {
         this.name = name;
@@ -76,6 +77,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPassword2() {
+        return password2;
+    }
+
+    public void setPassword2(String password2) {
+        this.password2 = password2;
     }
 
     @Override
