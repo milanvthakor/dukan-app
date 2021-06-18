@@ -12,6 +12,8 @@ import com.bumptech.glide.Glide;
 import com.milan.dukan.models.Category;
 import com.milan.dukan.models.Product;
 
+import java.util.Objects;
+
 public class ProductDetailsActivity extends AppCompatActivity {
 
     // UI Components
@@ -29,7 +31,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
         // set custom toolbar as support action bar to activity
         setSupportActionBar(findViewById(R.id.product_details_toolbar));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
 
         bindViews();

@@ -22,11 +22,11 @@ import java.util.ArrayList;
 public class CategoryRecyclerAdapter extends RecyclerView.Adapter<CategoryRecyclerAdapter.CategoryRecyclerViewHolder> implements Filterable {
 
     // vars
-    private Context context;
-    private ArrayList<Category> mCategories;
+    private final Context context;
+    private final ArrayList<Category> mCategories;
+    private final OnCategoryListChangedListener mOnCategoryListChangedListener;
+    private final OnCategoryClickListener mOnCategoryClickListener;
     private ArrayList<Category> mCategoriesFiltered;
-    private OnCategoryListChangedListener mOnCategoryListChangedListener;
-    private OnCategoryClickListener mOnCategoryClickListener;
 
     public CategoryRecyclerAdapter(Context context, ArrayList<Category> mCategories, OnCategoryListChangedListener mOnCategoryListChangedListener, OnCategoryClickListener mOnCategoryClickListener) {
         this.context = context;

@@ -11,6 +11,8 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.milan.dukan.adapters.SettingsCollectionAdapter;
 
+import java.util.Objects;
+
 public class SettingsActivity extends AppCompatActivity {
 
     // UI Components
@@ -27,7 +29,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         // set custom toolbar as support action bar to activity
         setSupportActionBar(findViewById(R.id.settings_toolbar));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
 
         bindViews();

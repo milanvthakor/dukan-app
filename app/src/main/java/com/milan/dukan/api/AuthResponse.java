@@ -4,11 +4,11 @@ import java.math.BigInteger;
 
 public class AuthResponse {
 
-    private String response;
-    private String message;
-    private BigInteger pk;
-    private String email;
-    private String token;
+    private final String response;
+    private final String message;
+    private final BigInteger pk;
+    private final String email;
+    private final String token;
 
     public AuthResponse(String response, String message, BigInteger pk, String email, String token) {
         this.response = response;

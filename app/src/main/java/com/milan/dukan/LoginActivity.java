@@ -20,8 +20,6 @@ import retrofit2.Response;
 
 public class LoginActivity extends BaseActivity {
 
-    private static final String TAG = "LoginActivity";
-
     // UI
     EditText etEmail, etPassword;
     CustomTextInputLayout tilEmail, tilPassword;

@@ -14,6 +14,7 @@ import com.milan.dukan.models.Product;
 import com.milan.dukan.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ProductListActivity extends AppCompatActivity implements CatProductRecyclerAdapter.OnCatProductClickListener {
 
@@ -22,7 +23,6 @@ public class ProductListActivity extends AppCompatActivity implements CatProduct
 
     // vars
     private ArrayList<Product> mCatProducts = new ArrayList<>();
-    private CatProductRecyclerAdapter mCatProductRecyclerAdapter;
     private Category mCategory;
 
     @Override
@@ -32,7 +32,7 @@ public class ProductListActivity extends AppCompatActivity implements CatProduct
 
         // set custom toolbar as support action bar to activity
         setSupportActionBar(findViewById(R.id.product_list_toolbar));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
 
         getIncomingIntent();
@@ -54,7 +54,7 @@ public class ProductListActivity extends AppCompatActivity implements CatProduct
     }
 
     private void initRecyclerView() {
-        mCatProductRecyclerAdapter = new CatProductRecyclerAdapter(mCatProducts, this);
+        CatProductRecyclerAdapter mCatProductRecyclerAdapter = new CatProductRecyclerAdapter(mCatProducts, this);
         rvCatProducts.setAdapter(mCatProductRecyclerAdapter);
     }
 

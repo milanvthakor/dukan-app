@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity implements
         CategoryRecyclerAdapter.OnCategoryClickListener,
         ProductRecyclerAdapter.OnProductClickListener {
 
-    private static final String TAG = "MainActivity";
     private final ArrayList<Category> mCategories = Utils.categories;
 
     // UI Components
