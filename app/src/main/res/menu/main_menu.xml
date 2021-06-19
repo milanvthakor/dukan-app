@@ -14,4 +14,8 @@
         android:icon="@drawable/ic_baseline_settings_24"
         android:title="@string/my_profile"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/logout"
+        android:title="@string/sign_out" />
 </menu>

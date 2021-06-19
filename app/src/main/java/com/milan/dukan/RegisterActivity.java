@@ -1,6 +1,7 @@
 package com.milan.dukan;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -42,6 +43,7 @@ public class RegisterActivity extends BaseActivity implements DatePickerDialog.O
     RadioGroup rgGender;
     RadioButton rbGender;
     Button btnRegister;
+    ProgressDialog authProgressDialog;
 
     // vars
     SharedPreferences sp;
@@ -62,6 +64,7 @@ public class RegisterActivity extends BaseActivity implements DatePickerDialog.O
         actCity.setAdapter(mCityAdapter);
 
         setListener();
+        prepareAuthProgressDialog();
     }
 
     private void bindViews() {
@@ -95,6 +98,15 @@ public class RegisterActivity extends BaseActivity implements DatePickerDialog.O
             dpd.show();
         });
         btnRegister.setOnClickListener(v -> validateData());
+    }
+
+    private void prepareAuthProgressDialog() {
+        authProgressDialog = new ProgressDialog(this);
+        authProgressDialog.setCancelable(false);
+        authProgressDialog.setIndeterminate(true);
+        authProgressDialog.setTitle("Signing Up");
+        authProgressDialog.setMessage("Processing a request");
+        authProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
     }
 
     private void validateData() {
@@ -154,9 +166,12 @@ public class RegisterActivity extends BaseActivity implements DatePickerDialog.O
 
     private void register(User user) {
         Call<AuthResponse> authResponseCall = RetrofitClient.getInstance().getAuthApi().register(user);
+        authProgressDialog.show();
         authResponseCall.enqueue(new Callback<AuthResponse>() {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
+                authProgressDialog.dismiss();
+
                 AuthResponse successAuthResponse = response.body();
                 if (successAuthResponse != null) {
                     displayToast(successAuthResponse.getMessage());
@@ -175,13 +190,14 @@ public class RegisterActivity extends BaseActivity implements DatePickerDialog.O
                     AuthResponse failureAUthResponse = new Gson().fromJson(response.errorBody().charStream(), AuthResponse.class);
                     displayToast(failureAUthResponse.getMessage());
                 } else {
-                    displayToast("Something went wrong!!");
+                    displayToast("Something went wrong!! Please try again.");
                 }
             }
 
             @Override
             public void onFailure(Call<AuthResponse> call, Throwable t) {
-                displayToast(t.getLocalizedMessage());
+                authProgressDialog.dismiss();
+                displayToast("Server Unreachable!! Please try again.");
             }
         });
     }

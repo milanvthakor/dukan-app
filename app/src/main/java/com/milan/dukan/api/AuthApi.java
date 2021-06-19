@@ -10,7 +10,7 @@ import retrofit2.http.POST;
 
 public interface AuthApi {
 
-    String BASE_URL = "http://192.168.202.229:8000/api/user/";
+    String BASE_URL = "http://192.168.156.229:8000/api/user/";
 
     @POST("register")
     Call<AuthResponse> register(@Body User user);

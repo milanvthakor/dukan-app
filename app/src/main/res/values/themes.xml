@@ -25,6 +25,11 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <!-- Toolbar Style -->
+    <style name="Dukan_Toolbar" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorControlNormal">@color/persimmon_500</item>
+    </style>
+
     <!-- TextView Styles -->
     <style name="Theme.Dukan.AppName">
         <item name="android:fontFamily">@font/lobster_regular</item>
@@ -32,6 +37,7 @@
         <item name="android:textSize">60sp</item>
     </style>
 
+    <!-- Toolbar Title Text Style  -->
     <style name="Theme.Dukan.AppName.Toolbar">
         <item name="android:textSize">30sp</item>
     </style>

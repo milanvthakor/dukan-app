@@ -1,6 +1,8 @@
 package com.milan.dukan;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,7 +11,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,11 +18,13 @@ import com.milan.dukan.adapters.CategoryRecyclerAdapter;
 import com.milan.dukan.adapters.ProductRecyclerAdapter;
 import com.milan.dukan.models.Category;
 import com.milan.dukan.models.Product;
+import com.milan.dukan.utils.Constants;
 import com.milan.dukan.utils.Utils;
+import com.milan.dukan.views.BaseActivity;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements
+public class MainActivity extends BaseActivity implements
         ProductRecyclerAdapter.OnProductListChangedListener,
         CategoryRecyclerAdapter.OnCategoryListChangedListener,
         CategoryRecyclerAdapter.OnCategoryClickListener,
@@ -32,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements
     // UI Components
     RecyclerView rvProducts, rvCategories;
     TextView tvProductsLabel, tvCategoriesLabel;
-
+    SharedPreferences sp;
     // vars
     private ArrayList<Product> mProducts = new ArrayList<>();
     private ProductRecyclerAdapter mProductRecyclerAdapter;
@@ -42,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sp = getSharedPreferences(Constants.APP_PREFERENCE_NAME, Context.MODE_PRIVATE);
 
         // set custom toolbar as support action bar to activity
         setSupportActionBar(findViewById(R.id.main_toolbar));
@@ -105,6 +110,14 @@ public class MainActivity extends AppCompatActivity implements
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             return true;
+        } else if (id == R.id.logout) {
+            SharedPreferences.Editor spEditor = sp.edit();
+            spEditor.clear();
+            spEditor.apply();
+            spEditor.commit();
+            displayToast("Sign Out Successfully.");
+            navigate(LoginActivity.class);
+            finishAffinity();
         }
 
         return super.onOptionsItemSelected(item);

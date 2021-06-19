@@ -1,5 +1,6 @@
 package com.milan.dukan;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.milan.dukan.api.AuthResponse;
 import com.milan.dukan.api.RetrofitClient;
 import com.milan.dukan.utils.Constants;
@@ -25,6 +27,7 @@ public class LoginActivity extends BaseActivity {
     CustomTextInputLayout tilEmail, tilPassword;
     Button btnLogin;
     TextView tvForgotPassword, tvSignUp;
+    ProgressDialog authProgressDialog;
 
     // vars
     SharedPreferences sp;
@@ -41,6 +44,7 @@ public class LoginActivity extends BaseActivity {
 
         bindViews();
         setListeners();
+        prepareAuthProgressDialog();
     }
 
     private void bindViews() {
@@ -56,6 +60,15 @@ public class LoginActivity extends BaseActivity {
     private void setListeners() {
         btnLogin.setOnClickListener(v -> validateData());
         tvSignUp.setOnClickListener(v -> navigate(RegisterActivity.class));
+    }
+
+    private void prepareAuthProgressDialog() {
+        authProgressDialog = new ProgressDialog(this);
+        authProgressDialog.setCancelable(false);
+        authProgressDialog.setIndeterminate(true);
+        authProgressDialog.setTitle("Signing In");
+        authProgressDialog.setMessage("Processing a request");
+        authProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
     }
 
     private void validateData() {
@@ -82,9 +95,12 @@ public class LoginActivity extends BaseActivity {
 
     private void login(String email, String password) {
         Call<AuthResponse> authResponseCall = RetrofitClient.getInstance().getAuthApi().login(email, password);
+        authProgressDialog.show();
         authResponseCall.enqueue(new Callback<AuthResponse>() {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
+                authProgressDialog.dismiss();
+
                 AuthResponse authResponse = response.body();
                 if (authResponse != null) {
                     displayToast(authResponse.getMessage());
@@ -98,14 +114,19 @@ public class LoginActivity extends BaseActivity {
                         navigate(MainActivity.class);
                         finish();
                     }
+                } else if (response.errorBody() != null) {
+                    // get the response body from error
+                    AuthResponse failureAUthResponse = new Gson().fromJson(response.errorBody().charStream(), AuthResponse.class);
+                    displayToast(failureAUthResponse.getMessage());
                 } else {
-                    displayToast("Something went wrong!!");
+                    displayToast("Something went wrong!! Please try again.");
                 }
             }
 
             @Override
             public void onFailure(Call<AuthResponse> call, Throwable t) {
-                displayToast(t.getLocalizedMessage());
+                authProgressDialog.dismiss();
+                displayToast("Server Unreachable!! Please try again.");
             }
         });
     }

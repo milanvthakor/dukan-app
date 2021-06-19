@@ -6,10 +6,10 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/main_toolbar"
-        style="@style/Theme.AppCompat.DayNight.DarkActionBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorSurface"
+        android:theme="@style/Dukan_Toolbar"
         app:menu="@menu/main_menu"
         app:title="@string/app_name"
         app:titleTextAppearance="@style/Theme.Dukan.AppName.Toolbar"
